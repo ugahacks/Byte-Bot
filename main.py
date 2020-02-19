@@ -8,7 +8,7 @@ TOKEN = os.getenv('TOKEN')
 
 client = commands.Bot(command_prefix='-')
 
-extensions = ['src.cogs.emails']
+extensions = ['src.cogs.emails', 'src.cogs.ping']
 
 @client.command()
 async def load(ctx, extension):
