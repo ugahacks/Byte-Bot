@@ -7,9 +7,9 @@ import datetime
 
 class Emails(commands.Cog):
 
-    EMAIL_CHANNEL = 679472176335945797
-    LOG_CHANNEL = 679472147114098720
-    
+    EMAIL_CHANNEL = 676171302712901654
+    LOG_CHANNEL = 676524139732795403
+
     def __init__(self, client):
         self.client = client
         self.get_emails.start()
