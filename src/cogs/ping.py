@@ -1,6 +1,7 @@
 import discord
 import datetime
 from discord.ext import commands, tasks
+import urllib.request
 
 class Ping(commands.Cog):
 
