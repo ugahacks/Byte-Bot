@@ -20,6 +20,11 @@ class Ping(commands.Cog):
             message_embed.add_field(name='URGENT: Website may be down', value = f'@here UGAHacks status checker has detected that the website may be down. \n Use `-pause-ping` to pause the pings. Please turn it back on with `-resume-ping` when the problem is resolved.')
             await self.client.get_channel(self.LOG_CHANNEL).send(embed=message_embed)
 
+    @ping_ugahacks.before_loop
+    async def before_get_emails(self):
+        print('waiting...')
+        await self.client.wait_until_ready()
+
     @commands.command(name='pause-ping')
     async def pause_ping(self, ctx):
         self.ping_ugahacks.stop()
