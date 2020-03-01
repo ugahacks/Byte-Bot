@@ -16,20 +16,24 @@ class Emails(commands.Cog):
 
     @tasks.loop(seconds=5.0)
     async def get_emails(self):
-        mail_list = get_mail()
-        for email in mail_list:
-            if(email['type'] == EmailType.EMAIL):
-                message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
-                message_embed.add_field(name='New Email!', value=f'**From:** {email["email_from"]} \n **Subject:** {email["subject"]} \n **Recieved by:** {email["email_to"]}')
-                await self.client.get_channel(self.EMAIL_CHANNEL).send(embed=message_embed)
-            elif(email['type'] == EmailType.TEXT):
-                message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
-                message_embed.add_field(name='New Text Message!', value = f'**From:** {email["email_from"]} \n **Subject:** {email["subject"]} \n **Email Content:** {email["email_body"]} \n **Recieved by:** {email["email_to"]}')
-                await self.client.get_channel(self.EMAIL_CHANNEL).send(embed=message_embed)
-            elif(email['type'] == EmailType.ERROR):
-                message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
-                message_embed.add_field(name='uh oh ERROR!!', value = f'{email["subject"]} \n {email["email_body"]}')
-                await self.client.get_channel(self.LOG_CHANNEL).send(embed=message_embed)
+        try:
+            mail_list = get_mail()
+            for email in mail_list:
+                if(email['type'] == EmailType.EMAIL):
+                    message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
+                    message_embed.add_field(name='New Email!', value=f'**From:** {email["email_from"]} \n **Subject:** {email["subject"]} \n **Recieved by:** {email["email_to"]}')
+                    await self.client.get_channel(self.EMAIL_CHANNEL).send(embed=message_embed)
+                elif(email['type'] == EmailType.TEXT):
+                    message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
+                    message_embed.add_field(name='New Text Message!', value = f'**From:** {email["email_from"]} \n **Subject:** {email["subject"]} \n **Email Content:** {email["email_body"]} \n **Recieved by:** {email["email_to"]}')
+                    await self.client.get_channel(self.EMAIL_CHANNEL).send(embed=message_embed)
+                elif(email['type'] == EmailType.ERROR):
+                    message_embed = discord.Embed(timestamp = datetime.datetime.now(), color=discord.Colour.red())
+                    message_embed.add_field(name='uh oh ERROR!!', value = f'{email["subject"]} \n {email["email_body"]}')
+                    await self.client.get_channel(self.LOG_CHANNEL).send(embed=message_embed)
+        except Exception as e:
+            print('An error has occured.')
+            print(e)
 
     @get_emails.before_loop
     async def before_get_emails(self):
